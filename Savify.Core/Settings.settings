@@ -8,5 +8,14 @@
     <Setting Name="FFmpeg" Type="System.String" Scope="User">
       <Value Profile="(Default)">ffmpeg.exe</Value>
     </Setting>
+    <Setting Name="OutputPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\</Value>
+    </Setting>
+    <Setting Name="Quality" Type="System.String" Scope="User">
+      <Value Profile="(Default)">256K</Value>
+    </Setting>
+    <Setting Name="Format" Type="System.String" Scope="User">
+      <Value Profile="(Default)">mp3</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

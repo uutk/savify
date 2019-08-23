@@ -46,5 +46,41 @@ namespace Savify.Core {
                 this["FFmpeg"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\")]
+        public string OutputPath {
+            get {
+                return ((string)(this["OutputPath"]));
+            }
+            set {
+                this["OutputPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("256K")]
+        public string Quality {
+            get {
+                return ((string)(this["Quality"]));
+            }
+            set {
+                this["Quality"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("mp3")]
+        public string Format {
+            get {
+                return ((string)(this["Format"]));
+            }
+            set {
+                this["Format"] = value;
+            }
+        }
     }
 }
