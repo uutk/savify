@@ -4,7 +4,7 @@ namespace Savify.Core
 {
     public static class Youtubedl
     {
-        public static Process GetProcess(string path, string args)
+        private static Process GetProcess(string path, string args)
         {
             Process _youtubedl = new Process();
             _youtubedl.StartInfo.UseShellExecute = false;
@@ -12,6 +12,14 @@ namespace Savify.Core
             _youtubedl.StartInfo.Arguments = args;
             _youtubedl.StartInfo.CreateNoWindow = true;
             return _youtubedl;
+        }
+
+        public static void Run(string args)
+        {
+            Process _youtubedl = GetProcess(Settings.Default.YouTubeDl, args);
+            _youtubedl.Start();
+            _youtubedl.WaitForExit();
+            _youtubedl.Close();
         }
 
         public static void Update()
