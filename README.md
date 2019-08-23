@@ -19,7 +19,7 @@ Savify is a legitimate app that intergrates with **Spotify Api**, this means if 
 ### Installation
 Install and download the following:
 - Visual Studio Community 2015 or later
-- Download Ffmpeg and Youtube-dl
+- Download [Ffmpeg (Static)](https://ffmpeg.zeranoe.com/builds/) and [Youtube-dl](https://ytdl-org.github.io/youtube-dl/download.html)
 - Extract and place these binaries in the 'bin' folder for each project
 
 ### Running the app
