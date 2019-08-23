@@ -73,13 +73,25 @@ namespace Savify.Core {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("mp3")]
+        [global::System.Configuration.DefaultSettingValueAttribute(".mp3")]
         public string Format {
             get {
                 return ((string)(this["Format"]));
             }
             set {
                 this["Format"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool RestrictFilenames {
+            get {
+                return ((bool)(this["RestrictFilenames"]));
+            }
+            set {
+                this["RestrictFilenames"] = value;
             }
         }
     }

@@ -17,5 +17,8 @@
     <Setting Name="Format" Type="System.String" Scope="User">
       <Value Profile="(Default)">mp3</Value>
     </Setting>
+    <Setting Name="RestrictFilenames" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
