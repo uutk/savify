@@ -34,5 +34,17 @@ namespace Savify.Core {
                 this["YouTubeDl"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ffmpeg.exe")]
+        public string FFmpeg {
+            get {
+                return ((string)(this["FFmpeg"]));
+            }
+            set {
+                this["FFmpeg"] = value;
+            }
+        }
     }
 }

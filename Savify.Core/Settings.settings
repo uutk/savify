@@ -5,5 +5,8 @@
     <Setting Name="YouTubeDl" Type="System.String" Scope="User">
       <Value Profile="(Default)">youtube-dl.exe</Value>
     </Setting>
+    <Setting Name="FFmpeg" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ffmpeg.exe</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
