@@ -18,7 +18,7 @@ namespace Savify.Console
                 "1 - Enter Search Query\n" +
                 "2 - Settings\n" +
                 "\n" +
-                "0 - Exit");
+                "0 - Exit\n");
                 int input = Convert.ToInt32(System.Console.ReadLine());
 
                 switch (input)
@@ -34,13 +34,15 @@ namespace Savify.Console
                     case 2:
                         break;
                     case 0:
+                        running = false;
                         break;
                     default:
-                        running = false;
+                        System.Console.Clear();
+                        System.Console.WriteLine("Please enter a valid option! [RETURN]");
+                        System.Console.ReadLine();
                         break;
                 }
             }
-            System.Console.ReadLine();
         }
     }
 }

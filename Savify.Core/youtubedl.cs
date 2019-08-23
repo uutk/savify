@@ -10,7 +10,7 @@ namespace Savify.Core
             _youtubedl.StartInfo.UseShellExecute = false;
             _youtubedl.StartInfo.FileName = path;
             _youtubedl.StartInfo.Arguments = args;
-            _youtubedl.StartInfo.CreateNoWindow = true;
+            _youtubedl.StartInfo.CreateNoWindow = false;
             return _youtubedl;
         }
 

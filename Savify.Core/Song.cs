@@ -4,12 +4,12 @@ namespace Savify.Core
 {
     public class Song
     {
-        public readonly string YOUTUBEDL_ARGS = @"--extract-audio --format bestaudio --audio-quality {0} --audio-format {1} --prefer-ffmpeg --ffmpeg-location {2} --continue --ignore-errors --no-overwrites ""{3}"" --default-search ""{4}""";
-        public readonly string SONG_ARGS = @" --output ""{5}\%(title)s.%(ext)s"" --no-playlist";
-        public readonly string PLAYLIST_ARGS = @" --output ""{5}\%(playlist)s\%(title)s.%(ext)s"" --yes-playlist";
-        public readonly string SPOTIFY_SONG_ARGS = @" --output ""{5}\{6} - {7}.%(ext)s"" --no-playlist";
-        public readonly string SPOTIFY_PLAYLIST_ARGS = @" --output ""{5}\{6}\{7} - {8}.%(ext)s"" --no-playlist";
-        public readonly string METADATA = @" --add-metadata --metadata-from-title ""(?P<artist>.+?) - (? P<title>.+)"" --xattrs --embed-thumbnail";
+        public readonly string YOUTUBEDL_ARGS = @"--extract-audio --format bestaudio --audio-quality {0} --audio-format {1} --prefer-ffmpeg --ffmpeg-location ""{2}"" --continue --ignore-errors --no-overwrites ""{3}"" --default-search ""{4}""";
+        public readonly string SONG_ARGS = @" --output ""{5}%(title)s.%(ext)s"" --no-playlist";
+        public readonly string PLAYLIST_ARGS = @" --output ""{5}%(playlist)s\%(title)s.%(ext)s"" --yes-playlist";
+        public readonly string SPOTIFY_SONG_ARGS = @" --output ""{5}{6} - {7}.%(ext)s"" --no-playlist";
+        public readonly string SPOTIFY_PLAYLIST_ARGS = @" --output ""{5}{6}\{7} - {8}.%(ext)s"" --no-playlist";
+        public readonly string METADATA = @" --add-metadata --metadata-from-title ""(?P<artist>.+?) - (?P<title>.+)"" --xattrs --embed-thumbnail";
 
         private string search;
         private string title;
