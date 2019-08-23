@@ -1,4 +1,4 @@
-# Savify
+[![Savify](savify.png)](https://l4rry2k.github.io/savify/)
 
 [Savify](https://l4rry2k.github.io/Savify/) is a desktop application that converts and downloads songs from Spotify, YouTube, Soundcloud, Deezer and many other sites. Converting songs to MP3 with quality as high as **320 kb/s**! The application will also scrape and apply **id3V2 tags** to all of your songs. Tags include **title, artist, genre, year, album and even cover-art!**
 
@@ -6,7 +6,7 @@ Savify supports Spotify, YouTube, Soundcloud and Deezer playlists, with an added
 
 As well as MP3, Savify can also download and convert to other file types. Inside the application, you can specify which format and quality you would like to download the song in for maximum compatibility across all of your devices. Available formats: MP3, AAC, FLAC, M4A, OPUS, VORBIS, and WAV. **NOTE: Tags and cover-art will only be applied to songs downloaded in MP3 format.**
 
-Download the latest release of Savify for Windows here: https://l4rry2k.github.io/Savify/
+Download the latest release of Savify for Windows here: https://l4rry2k.github.io/savify/
 
 ## Windows Warning
 Running antivirus on your PC may interfere with Savify.
