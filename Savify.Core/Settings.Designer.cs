@@ -94,5 +94,17 @@ namespace Savify.Core {
                 this["RestrictFilenames"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ytsearch")]
+        public string Search {
+            get {
+                return ((string)(this["Search"]));
+            }
+            set {
+                this["Search"] = value;
+            }
+        }
     }
 }
