@@ -2,7 +2,7 @@
 
 namespace Savify.Core
 {
-    class Song
+    public class Song
     {
         public readonly string YOUTUBEDL_ARGS = @"--extract-audio --format bestaudio --audio-quality {0} --audio-format {1} --prefer-ffmpeg --ffmpeg-location {2} --continue --ignore-errors --no-overwrites ""{3}"" --default-search ""{4}""";
         public readonly string SONG_ARGS = @" --output ""{5}\%(title)s.%(ext)s"" --no-playlist";
