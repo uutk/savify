@@ -8,6 +8,15 @@ namespace Savify.Console
     {
         static void Main(string[] args)
         {
+            Song song = new Song("test")
+            {
+                Artists = "Flume",
+                Album = "Skin"
+            };
+            song.GetAlbumCover();
+
+
+
             bool inMenu = true;
 
             while (inMenu)

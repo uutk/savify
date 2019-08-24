@@ -31,7 +31,7 @@ namespace Savify.Core
 
             request.Method = HttpMethod.ToString();
 
-            using(HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             {
                 if (response.StatusCode != HttpStatusCode.OK)
                 {

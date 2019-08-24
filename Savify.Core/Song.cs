@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Linq;
+using System.Net;
+using System.Xml.Linq;
+using MetaBrainz.MusicBrainz;
+using MetaBrainz.MusicBrainz.CoverArt;
 
 namespace Savify.Core
 {
@@ -13,6 +18,7 @@ namespace Savify.Core
         public readonly string WRITE_THUMBNAIL = @" --write-thumbnail";
         public readonly string RESTRICT_FILENAMES = @" --restrict-filenames";
         public readonly string FFMPEG_COVERART = @"-i {0} -i {1} -map 0:0 -map 1:0 -codec copy -id3v2_version 3 -metadata:s:v title=""Album cover"" -metadata:s:v comment=""Cover(front)"" {2}";
+        public readonly string MUSICBRAINZ_HEAD = @"Savify/0.1.2 ( https://l4rry2k.github.io/savify/ )";
 
         private string search;
         private string title;
@@ -109,6 +115,19 @@ namespace Savify.Core
                 args = string.Format(YOUTUBEDL_ARGS + METADATA + SONG_ARGS, Settings.Default.Quality, Enumerator.GetValueFromDescription<Format>(Settings.Default.Format), Settings.Default.FFmpeg, Search, Settings.Default.Search, Settings.Default.OutputPath);
                 Youtubedl.Run(args);
             }
+        }
+
+        public void GetAlbumCover()
+        {
+            Query query = new Query(MUSICBRAINZ_HEAD);
+            string artistMbid = query.FindArtists("artist:" + Artists).Results[0].MbId.ToString();
+            string releaseMbid = query.FindReleases("release:" + Album + " AND arid:" + artistMbid).Results[0].MbId.ToString();
+
+            if (query.LookupRelease(new Guid(releaseMbid)).CoverArtArchive.Front)
+            {
+                CoverArt ca = new CoverArt(MUSICBRAINZ_HEAD);
+                ca.FetchFront(new Guid(releaseMbid)).Decode().Save(Settings.Default.OutputPath + releaseMbid + ".jpg");
+            }          
         }
 
         public string Search { get => search; set => search = value; }
