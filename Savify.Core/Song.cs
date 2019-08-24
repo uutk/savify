@@ -21,7 +21,7 @@ namespace Savify.Core
         public readonly string RESTRICT_FILENAMES = @" --restrict-filenames";
         public readonly string FFMPEG_COVERART = @"-i {0} -i {1} -map 0:0 -map 1:0 -codec copy -id3v2_version 3 -metadata:s:v title=""Album cover"" -metadata:s:v comment=""Cover(front)"" {2}";
         public readonly string MUSICBRAINZ_HEAD = @"Savify/0.1.2 ( https://l4rry2k.github.io/savify/ )";
-        public readonly string FFMPEG_METADATA = @" -i {0}";
+        public readonly string FFMPEG_GET_METADATA = @" -i {0}";
         public readonly string FFMPEG_CLEAR_METADATA = @" -i {0} -map_metadata -1 {1}";
         public readonly string FFMPEG_WRITE_METADATA = @" -i {0} -metadata title=""{1}"" -metadata artist=""{2}"" -metadata album=""{3}"" -id3v2_version 3 -write_id3v1 1 {4}";
 
@@ -121,7 +121,7 @@ namespace Savify.Core
             string args;
             if (!IsLink())
             {
-                args = string.Format(YOUTUBEDL_ARGS + METADATA + SONG_ARGS, Settings.Default.Quality, Enumerator.GetValueFromDescription<Format>(Settings.Default.Format), Settings.Default.FFmpeg, Search, Settings.Default.Search, Settings.Default.OutputPath);
+                args = string.Format(YOUTUBEDL_ARGS + METADATA + SONG_ARGS + (Settings.Default.RestrictFilenames ? RESTRICT_FILENAMES : ""), Settings.Default.Quality, Enumerator.GetValueFromDescription<Format>(Settings.Default.Format), Settings.Default.FFmpeg, Search, Settings.Default.Search, Settings.Default.OutputPath);
                 string output = Youtubedl.Run(args);
 
                 Regex regex = new Regex(@"(?<=\[ffmpeg\] Destination: )(.*?)(?=\n)");
