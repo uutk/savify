@@ -117,4 +117,12 @@ namespace Savify.Core
         [Description("Album")]
         Album
     }
+
+    public enum Search
+    {
+        [Description("ytsearch")]
+        YouTube,
+        [Description("scsearch")]
+        Soundcloud
+    }
 }
