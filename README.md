@@ -44,4 +44,4 @@ Inside Visual Studio right-click on the solution and select 'Build Solution', or
 ## Credits
 |Library|Author|Website|Description|
 |---|---|---|---|
-|MetaBrainz.MusicBrainz|Zastai|https://github.com/Zastai/MusicBrainz/blob/master/README.md|This package provides classes for accessing the MusicBrainz web services (lookup, search and OAuth2).|
+|MetaBrainz.MusicBrainz|Zastai|[GitHub](https://github.com/Zastai/MusicBrainz/blob/master/README.md)|This package provides classes for accessing the MusicBrainz web services (lookup, search and OAuth2).|
