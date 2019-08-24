@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using MetaBrainz.MusicBrainz;
 using MetaBrainz.MusicBrainz.CoverArt;
@@ -29,13 +31,11 @@ namespace Savify.Core
         private Uri coverArt;
         private Uri fileLocation;
         private Status status;
-        private Format format;
 
         public Song(string search)
         {
             Search = search;
             this.Status = Status.Waiting;
-            this.Format = Enumerator.GetValueFromDescription<Format>(Settings.Default.Format);
         }
 
         public bool IsLink()
@@ -107,13 +107,28 @@ namespace Savify.Core
             }
         }
 
+        public Format GetFormat()
+        {
+            return Enumerator.GetValueFromDescription<Format>(Path.GetExtension(FileLocation.AbsoluteUri));
+        }
+
         public void Download()
         {
+            Status = Status.Downloading;
             string args;
             if (!IsLink())
             {
                 args = string.Format(YOUTUBEDL_ARGS + METADATA + SONG_ARGS, Settings.Default.Quality, Enumerator.GetValueFromDescription<Format>(Settings.Default.Format), Settings.Default.FFmpeg, Search, Settings.Default.Search, Settings.Default.OutputPath);
                 string output = Youtubedl.Run(args);
+
+                Regex regex = new Regex(@"(?<=\[ffmpeg\] Destination: )(.*?)(?=\n)");
+                Match match = regex.Match(output);
+                if (match.Success)
+                {
+                    Console.WriteLine("\nDownloaded: " + match.Value + " [RETURN]");
+                    Status = Status.Downloaded;
+                    FileLocation = new Uri(Settings.Default.OutputPath + match.Value);
+                }
             }
         }
 
@@ -127,6 +142,7 @@ namespace Savify.Core
             {
                 CoverArt ca = new CoverArt(MUSICBRAINZ_HEAD);
                 ca.FetchFront(releaseMbid).Decode().Save(Settings.Default.OutputPath + releaseMbid + ".jpg");
+                CoverArt = new Uri(Settings.Default.OutputPath + releaseMbid + ".jpg");
             }          
         }
 
@@ -139,6 +155,5 @@ namespace Savify.Core
         public Uri CoverArt { get => coverArt; set => coverArt = value; }
         public Uri FileLocation { get => fileLocation; set => fileLocation = value; }
         public Status Status { get => status; set => status = value; }
-        public Format Format { get => format; set => format = value; }
     }
 }

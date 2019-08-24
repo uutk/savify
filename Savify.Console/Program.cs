@@ -8,6 +8,8 @@ namespace Savify.Console
     {
         static void Main(string[] args)
         {
+            Core.Settings.Default.OutputPath = Environment.CurrentDirectory + @"\";
+
             bool inMenu = true;
 
             while (inMenu)
@@ -262,6 +264,7 @@ namespace Savify.Console
 
             Song song = new Song(search);
             song.Download();
+            System.Console.ReadLine();
         }
     }
 }
