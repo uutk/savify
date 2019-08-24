@@ -135,7 +135,7 @@ namespace Savify.Core
             }
         }
 
-        public void GetAlbumCover()
+        public void DownloadAlbumCover()
         {
             Query query = new Query(MUSICBRAINZ_HEAD);
             Guid artistMbid = query.FindArtists("artist:" + Artists).Results[0].MbId;
