@@ -44,4 +44,6 @@ Inside Visual Studio right-click on the solution and select 'Build Solution', or
 ## Credits
 |Library|Author|Website|Description|
 |---|---|---|---|
-|MetaBrainz.MusicBrainz|Zastai|[GitHub](https://github.com/Zastai/MusicBrainz/blob/master/README.md)|This package provides classes for accessing the MusicBrainz web services (lookup, search and OAuth2).|
+|MetaBrainz.MusicBrainz|Zastai|[GitHub](https://github.com/Zastai/MusicBrainz)|This package provides classes for accessing the MusicBrainz web services (lookup, search and OAuth2).|
+|MetaBrainz.MusicBrainz.CoverArt|Zastai|[GitHub](https://github.com/Zastai/MusicBrainz)|This package provides classes for accessing the CoverArt Archive (CAA), enabling the retrieval of cover art for music releases based on their MusicBrainz ID.|
+|Newtonsoft.Json|James Newton-King|[Website](https://www.newtonsoft.com/json)|Json.NET is a popular high-performance JSON framework for .NET.|
