@@ -21,12 +21,21 @@ Install and download the following:
 - Visual Studio Community 2015 or later
 - Download [Ffmpeg (Static)](https://ffmpeg.zeranoe.com/builds/) and [Youtube-dl](https://ytdl-org.github.io/youtube-dl/download.html)
 - Extract and place these binaries in the 'bin' folder for each project
+- Alternatively you can get these binaries by downloading the latest release
 
 ### Running the app
-#### With GUI
+#### GUI App
+##### With Executable
+**Coming Soon!**
+##### From Commandline
 **Coming Soon!**
 
-#### From Commandline
+#### Console App
+### With Executable
+- Clone repo and build the solution with Visual Studio
+- Go to 'Savify.Console/bin/Debug/'
+- Run 'Savify.Console.exe'
+##### From Commandline
 **Coming Soon!**
 
 ### Building the app
