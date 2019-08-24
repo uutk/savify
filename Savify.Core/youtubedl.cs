@@ -17,22 +17,26 @@ namespace Savify.Core
 
         public static string Run(string args)
         {
+            string output;
             Process _youtubedl = GetProcess(Settings.Default.YouTubeDl, args);
             _youtubedl.Start();
             _youtubedl.WaitForExit();
+            output = _youtubedl.StandardOutput.ReadToEnd();
             _youtubedl.Close();
 
-            return _youtubedl.StandardOutput.ReadToEnd();
+            return output;
         }
 
         public static string Update()
         {
+            string output;
             Process _youtubedl = GetProcess(Settings.Default.YouTubeDl, "-U");
             _youtubedl.Start();
             _youtubedl.WaitForExit();
+            output = _youtubedl.StandardOutput.ReadToEnd();
             _youtubedl.Close();
 
-            return _youtubedl.StandardOutput.ReadToEnd();
+            return output;
         }
     }
 }

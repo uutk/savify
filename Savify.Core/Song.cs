@@ -113,7 +113,7 @@ namespace Savify.Core
             if (!IsLink())
             {
                 args = string.Format(YOUTUBEDL_ARGS + METADATA + SONG_ARGS, Settings.Default.Quality, Enumerator.GetValueFromDescription<Format>(Settings.Default.Format), Settings.Default.FFmpeg, Search, Settings.Default.Search, Settings.Default.OutputPath);
-                Youtubedl.Run(args);
+                string output = Youtubedl.Run(args);
             }
         }
 
