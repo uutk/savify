@@ -1,6 +1,6 @@
 [![Savify](savify.png)](https://l4rry2k.github.io/savify/)
 
-[![Donate](https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png)](https://www.buymeacoffee.com/larry2k)
+[![Donate](donate.png)](https://www.buymeacoffee.com/larry2k)
 
 [Savify](https://l4rry2k.github.io/Savify/) is a desktop application that converts and downloads songs from Spotify, YouTube, Soundcloud, Deezer and many other sites. Converting songs to MP3 with quality as high as **320 kb/s**! The application will also scrape and apply **id3V2 tags** to all of your songs. Tags include **title, artist, genre, year, album and even cover-art!**
 
