@@ -21,16 +21,19 @@ namespace Savify.Core
         public readonly string RESTRICT_FILENAMES = @" --restrict-filenames";
         public readonly string FFMPEG_COVERART = @"-i {0} -i {1} -map 0:0 -map 1:0 -codec copy -id3v2_version 3 -metadata:s:v title=""Album cover"" -metadata:s:v comment=""Cover(front)"" {2}";
         public readonly string MUSICBRAINZ_HEAD = @"Savify/0.1.2 ( https://l4rry2k.github.io/savify/ )";
+        public readonly string FFMPEG_METADATA = @" -i {0}";
+        public readonly string FFMPEG_CLEAR_METADATA = @" -i {0} -map_metadata -1 {1}";
+        public readonly string FFMPEG_WRITE_METADATA = @" -i {0} -metadata title=""{1}"" -metadata artist=""{2}"" -metadata album=""{3}"" -id3v2_version 3 -write_id3v1 1 {4}";
 
-        private string search;
-        private string title;
-        private string artists;
-        private string album;
-        private string trackNumber;
-        private string year;
-        private Uri coverArt;
-        private Uri fileLocation;
-        private Status status;
+        public string Search { get; set; }
+        public string Title { get; set; }
+        public string Artists { get; set; }
+        public string Album { get; set; }
+        public string TrackNumber { get; set; }
+        public string Year { get; set; }
+        public Uri CoverArt { get; set; }
+        public Uri FileLocation { get; set; }
+        public Status Status { get; set; }
 
         public Song(string search)
         {
@@ -145,15 +148,5 @@ namespace Savify.Core
                 CoverArt = new Uri(Settings.Default.OutputPath + releaseMbid + ".jpg");
             }          
         }
-
-        public string Search { get => search; set => search = value; }
-        public string Title { get => title; set => title = value; }
-        public string Artists { get => artists; set => artists = value; }
-        public string Album { get => album; set => album = value; }
-        public string TrackNumber { get => trackNumber; set => trackNumber = value; }
-        public string Year { get => year; set => year = value; }
-        public Uri CoverArt { get => coverArt; set => coverArt = value; }
-        public Uri FileLocation { get => fileLocation; set => fileLocation = value; }
-        public Status Status { get => status; set => status = value; }
     }
 }
