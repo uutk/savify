@@ -120,13 +120,13 @@ namespace Savify.Core
         public void GetAlbumCover()
         {
             Query query = new Query(MUSICBRAINZ_HEAD);
-            string artistMbid = query.FindArtists("artist:" + Artists).Results[0].MbId.ToString();
-            string releaseMbid = query.FindReleases("release:" + Album + " AND arid:" + artistMbid).Results[0].MbId.ToString();
+            Guid artistMbid = query.FindArtists("artist:" + Artists).Results[0].MbId;
+            Guid releaseMbid = query.FindRecordings("recording:" + Title + " AND arid:" + artistMbid).Results[0].Releases[0].MbId;
 
-            if (query.LookupRelease(new Guid(releaseMbid)).CoverArtArchive.Front)
+            if (query.LookupRelease(releaseMbid).CoverArtArchive.Front)
             {
                 CoverArt ca = new CoverArt(MUSICBRAINZ_HEAD);
-                ca.FetchFront(new Guid(releaseMbid)).Decode().Save(Settings.Default.OutputPath + releaseMbid + ".jpg");
+                ca.FetchFront(releaseMbid).Decode().Save(Settings.Default.OutputPath + releaseMbid + ".jpg");
             }          
         }
 

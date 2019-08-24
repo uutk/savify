@@ -10,24 +10,29 @@ namespace Savify.Core
             _youtubedl.StartInfo.UseShellExecute = false;
             _youtubedl.StartInfo.FileName = path;
             _youtubedl.StartInfo.Arguments = args;
-            _youtubedl.StartInfo.CreateNoWindow = false;
+            _youtubedl.StartInfo.RedirectStandardOutput = true;
+            _youtubedl.StartInfo.CreateNoWindow = true;
             return _youtubedl;
         }
 
-        public static void Run(string args)
+        public static string Run(string args)
         {
             Process _youtubedl = GetProcess(Settings.Default.YouTubeDl, args);
             _youtubedl.Start();
             _youtubedl.WaitForExit();
             _youtubedl.Close();
+
+            return _youtubedl.StandardOutput.ReadToEnd();
         }
 
-        public static void Update()
+        public static string Update()
         {
             Process _youtubedl = GetProcess(Settings.Default.YouTubeDl, "-U");
             _youtubedl.Start();
             _youtubedl.WaitForExit();
             _youtubedl.Close();
+
+            return _youtubedl.StandardOutput.ReadToEnd();
         }
     }
 }
