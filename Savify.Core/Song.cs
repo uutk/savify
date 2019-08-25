@@ -179,16 +179,14 @@ namespace Savify.Core
 
         private void WriteMetadata()
         {
-            TagLib.File file = GetTagLibFile();
-
             ClearMetadata();
-            
+
+            TagLib.File file = GetTagLibFile();
             file.Tag.Title = Title;
             file.Tag.Performers = Artists.Split(',');
             file.Tag.Album = Album;
             file.Tag.Track = (uint)Convert.ToInt32(TrackNumber);
             file.Tag.Year = (uint)Convert.ToInt32(Year);
-            file.RemoveTags(file.TagTypes & ~file.TagTypesOnDisk);
             file.Save();
             file.Dispose();
 
@@ -200,8 +198,8 @@ namespace Savify.Core
             if (GetFormat() == Format.mp3)
             {
                 TagLib.File file = GetTagLibFile();
-
                 file.Tag.Clear();
+                file.RemoveTags(file.TagTypes & ~file.TagTypesOnDisk);
                 file.RemoveTags(TagLib.TagTypes.AllTags);
                 file.Save();
                 file.Dispose();
