@@ -45,7 +45,7 @@ Install and download the following:
 Inside Visual Studio right-click on the solution and select 'Build Solution', or use the keyboard shortcut 'Ctrl+Shift+B'
 
 # Credits
-|Library|Author(s)|Website|Description|
+|Library|Author(s)|Project Link|Description|
 |---|---|---|---|
 |MetaBrainz.MusicBrainz|Zastai|[GitHub](https://github.com/Zastai/MusicBrainz)|This package provides classes for accessing the MusicBrainz web services (lookup, search and OAuth2).|
 |MetaBrainz.MusicBrainz.CoverArt|Zastai|[GitHub](https://github.com/Zastai/MusicBrainz)|This package provides classes for accessing the CoverArt Archive (CAA), enabling the retrieval of cover art for music releases based on their MusicBrainz ID.|
