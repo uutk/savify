@@ -45,8 +45,9 @@ Install and download the following:
 Inside Visual Studio right-click on the solution and select 'Build Solution', or use the keyboard shortcut 'Ctrl+Shift+B'
 
 # Credits
-|Library|Author|Website|Description|
+|Library|Author(s)|Website|Description|
 |---|---|---|---|
 |MetaBrainz.MusicBrainz|Zastai|[GitHub](https://github.com/Zastai/MusicBrainz)|This package provides classes for accessing the MusicBrainz web services (lookup, search and OAuth2).|
 |MetaBrainz.MusicBrainz.CoverArt|Zastai|[GitHub](https://github.com/Zastai/MusicBrainz)|This package provides classes for accessing the CoverArt Archive (CAA), enabling the retrieval of cover art for music releases based on their MusicBrainz ID.|
 |Newtonsoft.Json|James Newton-King|[Website](https://www.newtonsoft.com/json)|Json.NET is a popular high-performance JSON framework for .NET.|
+|TagLibSharp|Brian Nickel, Gabriel Burt, Stephen Shaw, etc|[GitHub](https://github.com/mono/taglib-sharp)|A library for for reading and writing metadata in media files, including video, audio, and photo formats.|
