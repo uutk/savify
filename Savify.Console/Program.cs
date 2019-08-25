@@ -259,12 +259,20 @@ namespace Savify.Console
 
         static void Search()
         {
-            System.Console.WriteLine("Enter link or search phrase: ");
+            System.Console.WriteLine("- Savify -\n" +
+                "\n" +
+                "Download Song(s):\n" +
+                "Enter link or search phrase: \n" +
+                "\n" +
+                "Enter 0 to go back\n");
             string search = System.Console.ReadLine();
 
-            Song song = new Song(search);
-            song.Download();
-            System.Console.ReadLine();
+            if (search != "0")
+            {
+                Song song = new Song(search);
+                song.Download();
+                System.Console.ReadLine();
+            }           
         }
     }
 }
