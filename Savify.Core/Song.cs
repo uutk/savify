@@ -16,14 +16,14 @@ namespace Savify.Core
         public readonly string PLAYLIST_ARGS = @" --output ""{5}%(playlist)s\%(title)s.%(ext)s"" --yes-playlist";
         public readonly string SPOTIFY_SONG_ARGS = @" --output ""{5}{6} - {7}.%(ext)s"" --no-playlist";
         public readonly string SPOTIFY_PLAYLIST_ARGS = @" --output ""{5}{6}\{7} - {8}.%(ext)s"" --no-playlist";
-        public readonly string METADATA = @" --add-metadata --metadata-from-title ""(?P<artist>.+?) - (?P<title>.+)"" --xattrs --embed-thumbnail";
-        public readonly string WRITE_THUMBNAIL = @" --write-thumbnail";
+        public readonly string METADATA = @" --add-metadata --metadata-from-title ""(?P<artist>.+?) - (?P<title>.+)"" --xattrs";
+        public readonly string WRITE_THUMBNAIL = @" --write-thumbnail --embed-thumbnail";
         public readonly string RESTRICT_FILENAMES = @" --restrict-filenames";
-        public readonly string FFMPEG_COVERART = @"-i {0} -i {1} -map 0:0 -map 1:0 -codec copy -id3v2_version 3 -metadata:s:v title=""Album cover"" -metadata:s:v comment=""Cover(front)"" {2}";
+        public readonly string FFMPEG_COVERART = @"-i ""{0}"" -i ""{1}"" -map 0:0 -map 1:0 -codec copy -id3v2_version 3 -metadata:s:v title=""Album cover"" -metadata:s:v comment=""Cover(front)"" ""{2}""";
         public readonly string MUSICBRAINZ_HEAD = @"Savify/0.1.2 ( https://l4rry2k.github.io/savify/ )";
-        public readonly string FFMPEG_GET_METADATA = @" -i {0}";
-        public readonly string FFMPEG_CLEAR_METADATA = @" -i {0} -map_metadata -1 {1}";
-        public readonly string FFMPEG_WRITE_METADATA = @" -i {0} -metadata title=""{1}"" -metadata artist=""{2}"" -metadata album=""{3}"" -id3v2_version 3 -write_id3v1 1 {4}";
+        public readonly string FFMPEG_GET_METADATA = @" -i ""{0}""";
+        public readonly string FFMPEG_CLEAR_METADATA = @" -i ""{0}"" -map_metadata -1 ""{1}""";
+        public readonly string FFMPEG_WRITE_METADATA = @" -i ""{0}"" -metadata title=""{1}"" -metadata artist=""{2}"" -metadata album=""{3}"" -id3v2_version 3 -write_id3v1 1 ""{4}""";
 
         public string Search { get; set; }
         public string Title { get; set; }
@@ -41,7 +41,7 @@ namespace Savify.Core
             this.Status = Status.Waiting;
         }
 
-        public bool IsLink()
+        private bool IsLink()
         {
             bool result = Uri.TryCreate(Search, UriKind.Absolute, out Uri uriResult)
                 && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
@@ -49,7 +49,7 @@ namespace Savify.Core
             return result;
         }
 
-        public Uri GetLink()
+        private Uri GetLink()
         {
             bool result = Uri.TryCreate(Search, UriKind.Absolute, out Uri uriResult)
                 && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
@@ -57,7 +57,7 @@ namespace Savify.Core
             return uriResult;
         }
 
-        public Host GetHost()
+        private Host GetHost()
         {
             string host = GetLink().Host;
 
@@ -71,7 +71,7 @@ namespace Savify.Core
                 throw new Exception("Link from that website are not supported.");
         }
 
-        public LinkType GetLinkType()
+        private LinkType GetLinkType()
         {
             Host host = GetHost();
             Uri link = GetLink();
@@ -110,9 +110,9 @@ namespace Savify.Core
             }
         }
 
-        public Format GetFormat()
+        private Format GetFormat()
         {
-            return Enumerator.GetValueFromDescription<Format>(Path.GetExtension(FileLocation.AbsoluteUri));
+            return Enumerator.GetValueFromDescription<Format>(Path.GetExtension(FileLocation.OriginalString));
         }
 
         public void Download()
@@ -121,32 +121,108 @@ namespace Savify.Core
             string args;
             if (!IsLink())
             {
-                args = string.Format(YOUTUBEDL_ARGS + METADATA + SONG_ARGS + (Settings.Default.RestrictFilenames ? RESTRICT_FILENAMES : ""), Settings.Default.Quality, Enumerator.GetValueFromDescription<Format>(Settings.Default.Format), Settings.Default.FFmpeg, Search, Settings.Default.Search, Settings.Default.OutputPath);
+                args = string.Format(YOUTUBEDL_ARGS + METADATA + SONG_ARGS + (Settings.Default.RestrictFilenames ? RESTRICT_FILENAMES : ""), Settings.Default.Quality, Enumerator.GetValueFromDescription<Format>(Settings.Default.Format), Settings.Default.FFmpeg, Search, Settings.Default.Search, Path.GetTempPath());
                 string output = Youtubedl.Run(args);
 
                 Regex regex = new Regex(@"(?<=\[ffmpeg\] Destination: )(.*?)(?=\n)");
                 Match match = regex.Match(output);
                 if (match.Success)
                 {
-                    Console.WriteLine("\nDownloaded: " + match.Value + " [RETURN]");
                     Status = Status.Downloaded;
-                    FileLocation = new Uri(Settings.Default.OutputPath + match.Value);
+                    FileLocation = new Uri(match.Value);
+                    ReadMetadada();
+                    DownloadAlbumCover();
+                    WriteMetadata();
+                    Console.WriteLine("\nDownloaded: " + match.Value + " [RETURN]");
                 }
             }
         }
 
-        public void DownloadAlbumCover()
+        private void DownloadAlbumCover()
         {
             Query query = new Query(MUSICBRAINZ_HEAD);
             Guid artistMbid = query.FindArtists("artist:" + Artists).Results[0].MbId;
             Guid releaseMbid = query.FindRecordings("recording:" + Title + " AND arid:" + artistMbid).Results[0].Releases[0].MbId;
+            Album = query.FindReleases("reid:" + releaseMbid).Results[0].Title;
 
             if (query.LookupRelease(releaseMbid).CoverArtArchive.Front)
             {
                 CoverArt ca = new CoverArt(MUSICBRAINZ_HEAD);
-                ca.FetchFront(releaseMbid).Decode().Save(Settings.Default.OutputPath + releaseMbid + ".jpg");
-                CoverArt = new Uri(Settings.Default.OutputPath + releaseMbid + ".jpg");
+                CoverArt = new Uri(Path.GetTempPath() + releaseMbid + ".jpg");
+                ca.FetchFront(releaseMbid).Decode().Save(CoverArt.OriginalString);
             }          
+        }
+
+        private string GetFilename()
+        {
+            return Path.GetFileNameWithoutExtension(FileLocation.OriginalString);
+        }
+
+        private string GetPath()
+        {
+            return Path.GetDirectoryName(FileLocation.LocalPath);
+        }
+
+        private void ReadMetadada()
+        {
+            if (GetFormat() == Format.mp3)
+            {
+                TagLib.File file = GetTagLibFile();
+
+                Title = file.Tag.Title;
+                Artists = file.Tag.FirstPerformer;
+                Album = file.Tag.Album;
+                TrackNumber = file.Tag.Track.ToString();
+                Year = file.Tag.Year.ToString();
+            }
+        }
+
+        private void WriteMetadata()
+        {
+            TagLib.File file = GetTagLibFile();
+
+            ClearMetadata();
+            
+            file.Tag.Title = Title;
+            file.Tag.Performers = Artists.Split(',');
+            file.Tag.Album = Album;
+            file.Tag.Track = (uint)Convert.ToInt32(TrackNumber);
+            file.Tag.Year = (uint)Convert.ToInt32(Year);
+            file.RemoveTags(file.TagTypes & ~file.TagTypesOnDisk);
+            file.Save();
+            file.Dispose();
+
+            WriteAlbumCover();
+        }
+
+        private void ClearMetadata()
+        {
+            if (GetFormat() == Format.mp3)
+            {
+                TagLib.File file = GetTagLibFile();
+
+                file.Tag.Clear();
+                file.RemoveTags(TagLib.TagTypes.AllTags);
+                file.Save();
+                file.Dispose();
+            }
+        }
+
+        private void WriteAlbumCover()
+        {          
+            Uri newLocation = new Uri(Settings.Default.OutputPath + GetFilename() + Enumerator.GetDescription(GetFormat()));
+            string args = string.Format(FFMPEG_COVERART, FileLocation.LocalPath, CoverArt.LocalPath, newLocation.LocalPath);
+            Ffmpeg.Run(args);
+            File.Delete(CoverArt.LocalPath);
+            File.Delete(FileLocation.LocalPath);
+            FileLocation = newLocation;
+        }
+
+        private TagLib.File GetTagLibFile()
+        {
+            TagLib.Id3v2.Tag.DefaultVersion = 3;
+            TagLib.Id3v2.Tag.ForceDefaultVersion = true;
+            return TagLib.File.Create(FileLocation.LocalPath);
         }
     }
 }
