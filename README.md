@@ -8,6 +8,7 @@ Savify supports Spotify, YouTube, Soundcloud and Deezer playlists, with an added
 
 As well as MP3, Savify can also download and convert to other file types. Inside the application, you can specify which format and quality you would like to download the song in for maximum compatibility across all of your devices. Available formats: MP3, AAC, FLAC, M4A, OPUS, VORBIS, and WAV. **NOTE: Tags and cover-art will only be applied to songs downloaded in MP3 format.**
 
+# Download for Windows
 Download the latest release of Savify for Windows here: https://l4rry2k.github.io/savify/
 
 # Donate
