@@ -2,8 +2,7 @@
   
 [![Savify](savify.png)](https://l4rry2k.github.io/savify/)
 [![Discord](https://img.shields.io/discord/379302964134674433?style=for-the-badge)](https://discordapp.com/invite/hZwVNqP) [![GitHub stars](https://img.shields.io/github/stars/l4rry2k/savify?style=for-the-badge)](https://github.com/L4rry2k/savify/stargazers) [![GitHub contributors](https://img.shields.io/github/contributors/l4rry2k/savify?style=for-the-badge)](https://github.com/L4rry2k/savify/graphs/contributors) [![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/l4rry2k/savify?include_prereleases&style=for-the-badge)](https://github.com/L4rry2k/savify/releases) [![GitHub Pre-Releases](https://img.shields.io/github/downloads-pre/l4rry2k/savify/latest/total?style=for-the-badge)](#download-for-windows)
-</div
-
+</div>
 
 # About
 [Savify](https://l4rry2k.github.io/savify/) is a desktop application that converts and downloads songs from Spotify, YouTube, Soundcloud, Deezer and many other sites. Converting songs to MP3 with quality as high as **320 kb/s**! The application will also scrape and apply **id3V2 tags** to all of your songs. Tags include **title, artist, genre, year, album and even cover-art!**
@@ -12,7 +11,10 @@ Savify supports Spotify, YouTube, Soundcloud and Deezer playlists, with an added
 
 As well as MP3, Savify can also download and convert to other file types. Inside the application, you can specify which format and quality you would like to download the song in for maximum compatibility across all of your devices. Available formats: MP3, AAC, FLAC, M4A, OPUS, VORBIS, and WAV. **NOTE: Tags and cover-art will only be applied to songs downloaded in MP3 format.**
 
-## Donate: [![Donate](donate.png)](https://www.buymeacoffee.com/larry2k)
+<div align="center">
+  
+[![Donate](donate.png)](https://www.buymeacoffee.com/larry2k)
+</div>
 
 # Download for Windows
 Download the latest release of Savify for Windows here: https://l4rry2k.github.io/savify/
