@@ -8,7 +8,8 @@ namespace Savify.Console
     {
         static void Main(string[] args)
         {
-            Core.Settings.Default.OutputPath = Environment.CurrentDirectory + @"\";
+            System.Console.Title = "Savify";
+            Core.Settings.Default.OutputPath = Environment.CurrentDirectory + @"\";           
 
             bool inMenu = true;
 

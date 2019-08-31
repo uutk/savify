@@ -112,7 +112,7 @@ namespace Savify.Core
 
         private Format GetFormat()
         {
-            return Enumerator.GetValueFromDescription<Format>(Path.GetExtension(FileLocation.OriginalString));
+            return Enumerator.GetValueFromDescription<Format>(Path.GetExtension(FileLocation.LocalPath));
         }
 
         public void Download()
@@ -142,20 +142,21 @@ namespace Savify.Core
         {
             Query query = new Query(MUSICBRAINZ_HEAD);
             Guid artistMbid = query.FindArtists("artist:" + Artists).Results[0].MbId;
-            Guid releaseMbid = query.FindRecordings("recording:" + Title + " AND arid:" + artistMbid).Results[0].Releases[0].MbId;
-            Album = query.FindReleases("reid:" + releaseMbid).Results[0].Title;
+            Guid releaseMbid = query.FindReleases("recording:" + Title + " AND arid:" + artistMbid).Results[0].MbId;
+            Album = query.LookupRelease(releaseMbid).Title;
+            Year = query.LookupRelease(releaseMbid).Date.Year.ToString();
 
             if (query.LookupRelease(releaseMbid).CoverArtArchive.Front)
             {
                 CoverArt ca = new CoverArt(MUSICBRAINZ_HEAD);
                 CoverArt = new Uri(Path.GetTempPath() + releaseMbid + ".jpg");
-                ca.FetchFront(releaseMbid).Decode().Save(CoverArt.OriginalString);
+                ca.FetchFront(releaseMbid).Decode().Save(CoverArt.LocalPath);
             }          
         }
 
         private string GetFilename()
         {
-            return Path.GetFileNameWithoutExtension(FileLocation.OriginalString);
+            return Path.GetFileNameWithoutExtension(FileLocation.LocalPath);
         }
 
         private string GetPath()
@@ -180,6 +181,7 @@ namespace Savify.Core
         private void WriteMetadata()
         {
             ClearMetadata();
+            WriteAlbumCover();
 
             TagLib.File file = GetTagLibFile();
             file.Tag.Title = Title;
@@ -188,9 +190,7 @@ namespace Savify.Core
             file.Tag.Track = (uint)Convert.ToInt32(TrackNumber);
             file.Tag.Year = (uint)Convert.ToInt32(Year);
             file.Save();
-            file.Dispose();
-
-            WriteAlbumCover();
+            file.Dispose();        
         }
 
         private void ClearMetadata()
