@@ -23,19 +23,19 @@ namespace Savify.Console
                 "2 - Settings\n" +
                 "\n" +
                 "0 - Exit\n");
-                int input = Convert.ToInt32(System.Console.ReadLine());
+                string input = System.Console.ReadLine();
 
                 switch (input)
                 {
-                    case 1:
+                    case "1":
                         System.Console.Clear();
                         Search();
                         break;
-                    case 2:
+                    case "2":
                         System.Console.Clear();
                         Settings();
                         break;
-                    case 0:
+                    case "0":
                         inMenu = false;
                         break;
                     default:
@@ -64,31 +64,31 @@ namespace Savify.Console
                     "5 - Search Provider\n" +
                     "\n" +
                     "0 - Back\n");
-                int input = Convert.ToInt32(System.Console.ReadLine());
+                string input = System.Console.ReadLine();
 
                 switch (input)
                 {
-                    case 1:
+                    case "1":
                         System.Console.Clear();
                         SetPath();
                         break;
-                    case 2:
+                    case "2":
                         System.Console.Clear();
                         SetFormat();
                         break;
-                    case 3:
+                    case "3":
                         System.Console.Clear();
                         SetQuality();
                         break;
-                    case 4:
+                    case "4":
                         System.Console.Clear();
                         ToggleRestrictFilenames();
                         break;
-                    case 5:
+                    case "5":
                         System.Console.Clear();
                         SetSearch();
                         break;
-                    case 0:
+                    case "0":
                         inSettings = false;
                         break;
                     default:
@@ -116,19 +116,19 @@ namespace Savify.Console
                     "Current: " + (Core.Settings.Default.Search == "ytsearch" ? "Search Provider A" : "Search Provider B") +
                     "\n\n" +
                     "0 - Back\n");
-                int input = Convert.ToInt32(System.Console.ReadLine());
+                string input = System.Console.ReadLine();
 
                 switch (input)
                 {
-                    case 1:
+                    case "1":
                         Core.Settings.Default.Search = "ytsearch";
                         inSearch = false;
                         break;
-                    case 2:
+                    case "2":
                         Core.Settings.Default.Search = "scsearch";
                         inSearch = false;
                         break;
-                    case 0:
+                    case "0":
                         inSearch = false;
                         break;
                     default:
@@ -164,16 +164,16 @@ namespace Savify.Console
                     "Current: " + Core.Settings.Default.Quality + "bps\n" +
                     "\n" +
                     "0 - Back\n");
-                int input = Convert.ToInt32(System.Console.ReadLine());
+                string input = System.Console.ReadLine();
 
-                int[] qualities = new int[] { 32, 96, 128, 192, 256, 320 };
+                string[] qualities = new string[] { "32", "96", "128", "192", "256", "320" };
 
                 if (Array.IndexOf(qualities, input) > -1)
                 {
-                    Core.Settings.Default.Quality = input.ToString() + "K";
+                    Core.Settings.Default.Quality = input + "K";
                     inQuality = false;
                 }
-                else if (input == 0)
+                else if (input == "0")
                 {
                     inQuality = false;
                 }

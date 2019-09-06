@@ -182,16 +182,13 @@ namespace Savify.Core
 
         private void ReadMetadada()
         {
-            if (GetFormat() == Format.mp3)
-            {
-                TagLib.File file = GetTagLibFile();
+            TagLib.File file = GetTagLibFile();
 
-                Title = file.Tag.Title;
-                Artists = file.Tag.FirstPerformer;
-                Album = file.Tag.Album;
-                TrackNumber = file.Tag.Track.ToString();
-                Year = file.Tag.Year.ToString();
-            }
+            Title = file.Tag.Title;
+            Artists = file.Tag.FirstPerformer;
+            Album = file.Tag.Album;
+            TrackNumber = file.Tag.Track.ToString();
+            Year = file.Tag.Year.ToString();
         }
 
         private void WriteMetadata()
@@ -211,15 +208,12 @@ namespace Savify.Core
 
         private void ClearMetadata()
         {
-            if (GetFormat() == Format.mp3)
-            {
-                TagLib.File file = GetTagLibFile();
-                file.Tag.Clear();
-                file.RemoveTags(file.TagTypes & ~file.TagTypesOnDisk);
-                file.RemoveTags(TagLib.TagTypes.AllTags);
-                file.Save();
-                file.Dispose();
-            }
+            TagLib.File file = GetTagLibFile();
+            file.Tag.Clear();
+            file.RemoveTags(file.TagTypes & ~file.TagTypesOnDisk);
+            file.RemoveTags(TagLib.TagTypes.AllTags);
+            file.Save();
+            file.Dispose();
         }
 
         private void WriteAlbumCover()
