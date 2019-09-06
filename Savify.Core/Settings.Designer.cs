@@ -85,7 +85,7 @@ namespace Savify.Core {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool RestrictFilenames {
             get {
                 return ((bool)(this["RestrictFilenames"]));

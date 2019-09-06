@@ -138,6 +138,8 @@ namespace Savify.Core
                         WriteMetadata();
                     }
 
+                    Rename();
+
                     Console.WriteLine("\nDownloaded: " + FileLocation.LocalPath + " [RETURN]");
                 }
             }
@@ -177,7 +179,12 @@ namespace Savify.Core
 
         private string GetPath()
         {
-            return Path.GetDirectoryName(FileLocation.LocalPath);
+            return Path.GetDirectoryName(FileLocation.LocalPath) + @"\";
+        }
+
+        private string GetExtension()
+        {
+            return Path.GetExtension(FileLocation.LocalPath);
         }
 
         private void ReadMetadada()
@@ -231,6 +238,32 @@ namespace Savify.Core
             TagLib.Id3v2.Tag.DefaultVersion = 3;
             TagLib.Id3v2.Tag.ForceDefaultVersion = true;
             return TagLib.File.Create(FileLocation.LocalPath);
+        }
+        
+
+        private void Rename()
+        {
+            if (Settings.Default.RestrictFilenames)
+            {
+                Uri newFileLocation = new Uri(GetPath() + Artists.ToFilePathSafeString() + " - " + Title.ToFilePathSafeString() + GetExtension());
+                File.Move(FileLocation.LocalPath, newFileLocation.LocalPath);
+                FileLocation = newFileLocation;
+
+            }
+            else
+            {
+                Uri newFileLocation = new Uri(GetPath() + Artists + " - " + Title + GetExtension());
+                File.Move(FileLocation.LocalPath, newFileLocation.LocalPath);
+                FileLocation = newFileLocation;
+            }
+        }
+    }
+
+    public static class SongExtensions
+    {
+        public static string ToFilePathSafeString(this string path, char replaceChar = '_')
+        {
+            return Path.GetInvalidFileNameChars().Aggregate(path, (current, invalidFileNameChar) => current.Replace(invalidFileNameChar, replaceChar)).TrimEnd(' ', '.');
         }
     }
 }
