@@ -124,34 +124,50 @@ namespace Savify.Core
                 args = string.Format(YOUTUBEDL_ARGS + METADATA + SONG_ARGS + (Settings.Default.RestrictFilenames ? RESTRICT_FILENAMES : ""), Settings.Default.Quality, Enumerator.GetValueFromDescription<Format>(Settings.Default.Format), Settings.Default.FFmpeg, Search, Settings.Default.Search, Path.GetTempPath());
                 string output = Youtubedl.Run(args);
 
-                Regex regex = new Regex(@"(?<=\[ffmpeg\] Destination: )(.*?)(?=\n)");
-                Match match = regex.Match(output);
+                Match match = new Regex(@"(?<=\[ffmpeg\] Destination: )(.*?)(?=\n)").Match(output);
+
                 if (match.Success)
                 {
                     Status = Status.Downloaded;
                     FileLocation = new Uri(match.Value);
-                    ReadMetadada();
-                    DownloadAlbumCover();
-                    WriteMetadata();
-                    Console.WriteLine("\nDownloaded: " + match.Value + " [RETURN]");
+
+                    if (GetFormat() == Format.mp3)
+                    {
+                        ReadMetadada();
+                        DownloadAlbumCover();
+                        WriteMetadata();
+                    }
+
+                    Console.WriteLine("\nDownloaded: " + FileLocation.LocalPath + " [RETURN]");
                 }
             }
         }
 
         private void DownloadAlbumCover()
         {
-            Query query = new Query(MUSICBRAINZ_HEAD);
-            Guid artistMbid = query.FindArtists("artist:" + Artists).Results[0].MbId;
-            Guid releaseMbid = query.FindReleases("recording:" + Title + " AND arid:" + artistMbid).Results[0].MbId;
-            Album = query.LookupRelease(releaseMbid).Title;
-            Year = query.LookupRelease(releaseMbid).Date.Year.ToString();
-
-            if (query.LookupRelease(releaseMbid).CoverArtArchive.Front)
+            try
             {
-                CoverArt ca = new CoverArt(MUSICBRAINZ_HEAD);
-                CoverArt = new Uri(Path.GetTempPath() + releaseMbid + ".jpg");
-                ca.FetchFront(releaseMbid).Decode().Save(CoverArt.LocalPath);
-            }          
+                Query query = new Query(MUSICBRAINZ_HEAD);
+                Guid artistMbid = query.FindArtists("artist:" + Artists).Results[0].MbId;
+                Guid releaseMbid = query.FindReleases("recording:" + Title + " AND arid:" + artistMbid).Results[0].MbId;
+                Album = query.LookupRelease(releaseMbid).Title;
+                Year = query.LookupRelease(releaseMbid).Date.Year.ToString();
+
+                if (query.LookupRelease(releaseMbid).CoverArtArchive.Front)
+                {
+                    CoverArt ca = new CoverArt(MUSICBRAINZ_HEAD);
+                    CoverArt = new Uri(Path.GetTempPath() + releaseMbid + ".jpg");
+                    ca.FetchFront(releaseMbid).Decode().Save(CoverArt.LocalPath);
+                }
+                else
+                {
+                    CoverArt = new Uri(Environment.CurrentDirectory + @"\assets\savify-cover-default.jpg");
+                }
+            }
+            catch
+            {
+                CoverArt = new Uri(Environment.CurrentDirectory + @"\assets\savify-cover-default.jpg");
+            }                    
         }
 
         private string GetFilename()
