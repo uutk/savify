@@ -19,7 +19,7 @@ namespace Savify.Core
             Uri link = GetLink(query);
             string args;
 
-            if (link.OriginalString != string.Empty)
+            if (link == null)
             {
                 args = string.Format(YOUTUBEDL_ARGS + METADATA + SONG_ARGS + (Settings.Default.RestrictFilenames ? RESTRICT_FILENAMES : ""), Settings.Default.Quality, Enumerator.GetValueFromDescription<Format>(Settings.Default.Format), Settings.Default.FFmpeg, query, Settings.Default.Search, Path.GetTempPath());
 
