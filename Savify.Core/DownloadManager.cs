@@ -17,41 +17,57 @@ namespace Savify.Core
         public static void DownloadQuery(string query)
         {
             Uri link = GetLink(query);
-            string args;
 
             if (link == null)
             {
-                args = string.Format(YOUTUBEDL_ARGS + METADATA + SONG_ARGS + (Settings.Default.RestrictFilenames ? RESTRICT_FILENAMES : ""), Settings.Default.Quality, Enumerator.GetValueFromDescription<Format>(Settings.Default.Format), Settings.Default.FFmpeg, query, Settings.Default.Search, Path.GetTempPath());
-
+                //No link search
                 Song song = new Song(query);
-                song.Download(args);
+                DownloadSong(song);
             }
             else
             {
                 Host host = GetHost(link);
                 LinkType linkType = GetLinkType(link, host);
+                //YouTube link
                 if (host == Host.YouTube)
                 {
+                    //YouTube playlist
                     if (linkType == LinkType.Playlist)
                     {
-                        args = string.Format(PLAYLIST_ARGS, link.OriginalString);
+                        string args = string.Format(PLAYLIST_ARGS, link.OriginalString);
                         string output = Youtubedl.Run(args);
 
-                        List<string> ids = new List<string>();
+                        List<Song> songs = new List<Song>();
                         string[] stringSeparators = new string[] { "\n" };
                         foreach (string id in output.Split(stringSeparators, StringSplitOptions.None))
                         {
                             if (id.Length == 11)
                             {
-                                ids.Add(id);
+                                songs.Add(new Song(id));
                             }
                         }
+
+                        DownloadList(songs);
                     }
+                    //YouTube video
                     else
                     {
 
                     }
                 }
+            }
+        }
+
+        private static void DownloadSong(Song song)
+        {
+            string args = string.Format(YOUTUBEDL_ARGS + METADATA + SONG_ARGS + (Settings.Default.RestrictFilenames ? RESTRICT_FILENAMES : ""), Settings.Default.Quality, Enumerator.GetValueFromDescription<Format>(Settings.Default.Format), Settings.Default.FFmpeg, song.Search, Settings.Default.Search, Path.GetTempPath());            
+            song.Download(args);
+        }
+
+        private static void DownloadList(List<Song> songs)
+        {
+            foreach (Song song in songs){
+                DownloadSong(song);
             }
         }
 
@@ -113,6 +129,20 @@ namespace Savify.Core
                 return Host.Soundcloud;
             else
                 throw new Exception("Link from that website are not supported.");
+        }
+
+
+        public static void Log(string output)
+        {
+            string path = Path.Combine(Environment.CurrentDirectory, "Logs");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            else
+            {
+                System.IO.File.WriteAllText(path + @"\Log.txt", output);
+            }
         }
     }
 }

@@ -30,6 +30,8 @@ namespace Savify.Core
         public Uri FileLocation { get; set; }
         public Status Status { get; set; }
 
+        private bool foundCoverart = false;
+
         public Song(string search)
         {
             Search = search;
@@ -45,6 +47,7 @@ namespace Savify.Core
         {
             Status = Status.Downloading;
             string output = Youtubedl.Run(args);
+            DownloadManager.Log(output);
 
             Match match = new Regex(@"(?<=\[ffmpeg\] Destination: )(.*?)(?=\n)").Match(output);
 
@@ -56,7 +59,7 @@ namespace Savify.Core
                 if (GetFormat() == Format.mp3)
                 {
                     ReadMetadada();
-                    DownloadAlbumCover();
+                    DownloadCoverart();
                     WriteMetadata();
                 }
 
@@ -68,7 +71,7 @@ namespace Savify.Core
             
         }
 
-        private void DownloadAlbumCover()
+        private void DownloadCoverart()
         {
             try
             {
@@ -83,6 +86,7 @@ namespace Savify.Core
                     CoverArt ca = new CoverArt(MUSICBRAINZ_HEAD);
                     CoverArt = new Uri(Path.GetTempPath() + releaseMbid + ".jpg");
                     ca.FetchFront(releaseMbid).Decode().Save(CoverArt.LocalPath);
+                    foundCoverart = true;
                 }
                 else
                 {
@@ -151,7 +155,10 @@ namespace Savify.Core
             Uri newLocation = new Uri(Settings.Default.OutputPath + GetFilename() + Enumerator.GetDescription(GetFormat()));
             string args = string.Format(FFMPEG_COVERART, FileLocation.LocalPath, CoverArt.LocalPath, newLocation.LocalPath);
             Ffmpeg.Run(args);
-            File.Delete(CoverArt.LocalPath);
+            if (foundCoverart)
+            {
+                File.Delete(CoverArt.LocalPath);
+            }
             File.Delete(FileLocation.LocalPath);
             FileLocation = newLocation;
         }
