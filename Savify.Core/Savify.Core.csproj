@@ -56,6 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DownloadManager.cs" />
     <Compile Include="Enumerator.cs" />
     <Compile Include="Ffmpeg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

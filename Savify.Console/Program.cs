@@ -270,8 +270,7 @@ namespace Savify.Console
 
             if (search != "0")
             {
-                Song song = new Song(search);
-                song.Download();
+                DownloadManager.DownloadQuery(search);
                 System.Console.ReadLine();
             }           
         }

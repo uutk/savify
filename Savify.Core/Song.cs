@@ -10,13 +10,6 @@ namespace Savify.Core
 {
     public class Song
     {
-        private readonly string YOUTUBEDL_ARGS = @"--extract-audio --format bestaudio --audio-quality {0} --audio-format {1} --prefer-ffmpeg --ffmpeg-location ""{2}"" --continue --ignore-errors --no-overwrites ""{3}"" --default-search ""{4}""";
-        private readonly string SONG_ARGS = @" --output ""{5}%(title)s.%(ext)s"" --no-playlist";
-        private readonly string PLAYLIST_ARGS = @"""{0}"" --get-id --ignore-errors";
-        private readonly string SPOTIFY_SONG_ARGS = @" --output ""{5}{6} - {7}.%(ext)s"" --no-playlist";
-        private readonly string SPOTIFY_PLAYLIST_ARGS = @" --output ""{5}{6}\{7} - {8}.%(ext)s"" --no-playlist";
-        private readonly string METADATA = @" --add-metadata --metadata-from-title ""(?P<artist>.+?) - (?P<title>.+)"" --xattrs";
-        private readonly string RESTRICT_FILENAMES = @" --restrict-filenames";
         private readonly string FFMPEG_COVERART = @"-i ""{0}"" -i ""{1}"" -map 0:0 -map 1:0 -codec copy -id3v2_version 3 -metadata:s:v title=""Album cover"" -metadata:s:v comment=""Cover(front)"" ""{2}""";
         private readonly string MUSICBRAINZ_HEAD = @"Savify/0.1.2 ( https://l4rry2k.github.io/savify/ )";
 
