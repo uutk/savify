@@ -21,8 +21,7 @@ namespace Savify.Core
             if (link == null)
             {
                 //No link search
-                Song song = new Song(query);
-                DownloadSong(song);
+                DownloadSong(new Song(query));
             }
             else
             {
@@ -52,7 +51,7 @@ namespace Savify.Core
                     //YouTube video
                     else
                     {
-
+                        DownloadSong(new Song(link.OriginalString));
                     }
                 }
             }

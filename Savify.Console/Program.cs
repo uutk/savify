@@ -9,7 +9,13 @@ namespace Savify.Console
         static void Main(string[] args)
         {
             System.Console.Title = "Savify";
-            Core.Settings.Default.OutputPath = Environment.CurrentDirectory + @"\";           
+            Core.Settings.Default.OutputPath = Environment.CurrentDirectory + @"\Downloads\";
+            Youtubedl.Update();
+
+            if (!Directory.Exists(Core.Settings.Default.OutputPath))
+            {
+                Directory.CreateDirectory(Core.Settings.Default.OutputPath);
+            }
 
             bool inMenu = true;
 

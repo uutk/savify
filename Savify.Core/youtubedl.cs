@@ -11,6 +11,7 @@ namespace Savify.Core
             _youtubedl.StartInfo.FileName = path;
             _youtubedl.StartInfo.Arguments = args;
             _youtubedl.StartInfo.RedirectStandardOutput = true;
+            _youtubedl.StartInfo.RedirectStandardError = true;
             _youtubedl.StartInfo.CreateNoWindow = true;
             return _youtubedl;
         }
@@ -21,7 +22,7 @@ namespace Savify.Core
             Process _youtubedl = GetProcess(Settings.Default.YouTubeDl, args);
             _youtubedl.Start();
             _youtubedl.WaitForExit();
-            output = _youtubedl.StandardOutput.ReadToEnd();
+            output = _youtubedl.StandardOutput.ReadToEnd() + _youtubedl.StandardError.ReadToEnd();
             _youtubedl.Close();
 
             return output;
@@ -33,7 +34,7 @@ namespace Savify.Core
             Process _youtubedl = GetProcess(Settings.Default.YouTubeDl, "-U");
             _youtubedl.Start();
             _youtubedl.WaitForExit();
-            output = _youtubedl.StandardOutput.ReadToEnd();
+            output = _youtubedl.StandardOutput.ReadToEnd() + _youtubedl.StandardError.ReadToEnd();
             _youtubedl.Close();
 
             return output;
